@@ -45,7 +45,7 @@ import keras
 
 
 # dimensions of our images.
-img_width, img_height = 150, 150
+img_width, img_height = 500, 500
 
 train_data_dir = 'data/train'
 validation_data_dir = 'data/validation'
@@ -59,8 +59,17 @@ if K.image_data_format() == 'channels_first':
 else:
     input_shape = (img_width, img_height, 3)
 
+#Conv2D(32, (3, 3)) 32 vectors of (3, 3) dimensional vectors
 model = Sequential()
-model.add(Conv2D(32, (3, 3), input_shape=input_shape))
+model.add(Conv2D(32, (2, 2), input_shape=input_shape))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(32, (3, 3)))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(32, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
@@ -79,6 +88,7 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(128, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
+
 
 model.add(Flatten())
 model.add(Dense(128))
@@ -124,4 +134,4 @@ model.fit_generator(
     validation_steps=nb_validation_samples // batch_size,
     callbacks=[tbCallBack])
 
-model.save_weights('test.h5')
+model.save_weights('test1.h5')
